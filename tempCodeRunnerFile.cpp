@@ -1,0 +1,1 @@
+    temp->next = temp->next->next;
