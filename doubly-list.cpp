@@ -123,12 +123,15 @@ void DoublyLinkedList::display(){
         curr = curr->next;
     }
     cout<<endl;
+
+    /*
+    for (int i=1; i<lenght; i++)
+    */
     cout<<"---------------------------------"<<endl;
 
 
 }
 void DoublyLinkedList::insert(int val,int pos){
-    
     if (pos <1 || pos> length+1){
         cout<<"Invalid position."<<pos<<endl;
         return;

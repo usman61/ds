@@ -14,10 +14,11 @@ class node{
 
 class LinkedList{
     private:
-    node *head;
+    
     int length;
 
     public:
+    node *head;
     LinkedList(){
         head = NULL;
         length = 0;
@@ -28,8 +29,10 @@ class LinkedList{
     void concatenate(LinkedList l1,LinkedList l2);
     void deletion(int pos);
     void last_to_front();
+    void swapNodes(node *n1,node *n2);
 
 };
+
 
 int main(int argc, char const *argv[])
 {
@@ -38,9 +41,13 @@ int main(int argc, char const *argv[])
     l1.insertion(6,2);
     l1.insertion(7,3);
     l1.insertion(8,4);
+    l1.insertion(9,5);
+    l1.insertion(10,6);
     // l1.deletion(2);
     l1.printing();
-    l1.last_to_front();
+    // l1.last_to_front();
+
+    l1.swapNodes(l1.head->next,l1.head->next->next->next);
     l1.printing();
 
     
@@ -55,8 +62,33 @@ int main(int argc, char const *argv[])
     
     return 0;
 }
+void LinkedList::swapNodes(node *n1,node *n2){
+    if(n1==n2)
+    return;
+
+    node *prev1=NULL,*prev2=NULL;
+    node *curr = head;
+
+    while(curr!=NULL){
+        if(curr->next==n1)
+            prev1=curr;
+
+        if(curr->next==n2)
+            prev2=curr;
+    
+    curr=curr->next;
+    }
+
+    prev1->next=n2;
+    prev2->next=n1;
+
+    node *temp = n1->next;
+    n1->next=n2->next;
+    n2->next=temp;
+    
 
 
+}
 void LinkedList::last_to_front(){
     node *temp = head;
     node *temp2;
