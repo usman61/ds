@@ -27,16 +27,15 @@ void showTrunks(Trunk *p)
 }
 
 
-
-class Node
+class node
 {
 public:
 int data;
-Node* left;
-Node* right;
+node* left;
+node* right;
 int height;
 
-Node(int data)
+node(int data)
 {
 this->data = data;
 left = right = NULL;
@@ -44,7 +43,7 @@ height = 0;
 }
 };
 
-void printTree(Node *&root, Trunk *prev, bool isRight)
+void printTree(node *&root, Trunk *prev, bool isRight)
 {
     if (root == NULL)
         return;
@@ -81,29 +80,35 @@ void printTree(Node *&root, Trunk *prev, bool isRight)
 class AVLTree{
 
     public:
-    Node *root;
+    node *root;
     AVLTree(){
         root = NULL;
     }
-    Node* insert(Node *r,int val);
-    Node* inOrderTraversal( Node* r);
+    node* insert(node *&r,int val);
+    node* inOrderTraversal( node* r);
+    // Rotation
+    node* singleRightRotate(node* &t);
+    node* singleLeftRotate(node* &t);
+    node* doubleRightLeftRotate(node* &t);
+    node* doubleLeftRightRotate(node* &t);
 
-    int height(Node* t)
+    int height(node* t)
     {
     return (t == NULL ? -1 : t->height);
     }
 
+    
 };
 
 int main()
 {
     AVLTree t1;
-    t1.insert(t1.root,15);
     t1.insert(t1.root,8);
-    t1.insert(t1.root,12);
-    t1.insert(t1.root,3);
-    t1.insert(t1.root,17);
-    t1.insert(t1.root,18);
+    t1.insert(t1.root,10);
+    t1.insert(t1.root,9);
+    // t1.insert(t1.root,3);
+    // t1.insert(t1.root,17);
+    // t1.insert(t1.root,18);
     t1.inOrderTraversal(t1.root);
     cout<<endl;
    // printTree();
@@ -112,35 +117,71 @@ int main()
     return 0;
 }
 
-Node* AVLTree::insert(Node *r,int val){
+node* AVLTree::singleRightRotate(node* &t)
+{
+node* u = t->left;
+t->left = u->right;
+u->right = t;
+t->height = max(height(t->left), height(t->right)) + 1;
+u->height = max(height(u->left), t->height) + 1;
+return u;
+}
+node* AVLTree::singleLeftRotate(node* &t)
+{
+node* u = t->right;
+t->right = u->left;
+u->left = t;
+t->height = max(height(t->left), height(t->right)) + 1;
+u->height = max(height(u->right), t->height) + 1;
+return u;
+}
+node* AVLTree::doubleRightLeftRotate(node* &t)
+{
+t->right = singleRightRotate(t->right);
+return singleLeftRotate(t);
+}
+node* AVLTree::doubleLeftRightRotate(node* &t)
+{
+t->left = singleLeftRotate(t->left);
+return singleRightRotate(t);
+}
+
+node* AVLTree::insert(node *&r,int val){
 
     if(r==NULL){
-        Node *temp = new Node(val);
-
-        if(r==root){
-            root = r = temp;
-        }
-        return temp;
+        node *temp = new node(val);
+        r = temp;
     }
-    else{
-        
-        if(r->data== val){
-            cout<<"Already Exist"<<endl;
-        
-        }
-        else if(val<r->data)
-        r->left = insert(r->left,val);
-        else{
+    else if(val<r->data){
+            r->left = insert(r->left,val);
+            int bf = height(r->left) - height(r->right);
+            if (bf == 2)
+            {
+            if (val < r->left->data)
+            r = singleRightRotate(r);
+            else
+            r = doubleLeftRightRotate(r);
+            }
+    }
+    else if (val>r->data){
         r->right = insert(r->right,val);
+        int bf = height(r->right) - height(r->left);
+        if (bf == 2)
+        {
+        if (val > r->right->data)
+        r = singleLeftRotate(r);
+        else
+        r = doubleRightLeftRotate(r);
+        }
 
         }
+    r->height = max(height(r->left), height(r->right)) + 1;
         
     return r;    
     }
 
-}
 
-Node* AVLTree::inOrderTraversal( Node* r){
+node* AVLTree::inOrderTraversal( node* r){
      if (r == NULL)
         return NULL;
    
