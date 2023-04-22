@@ -1,16 +1,18 @@
 #include <iostream>
 using namespace std;
 int myfunction(int value){
-if (value <= 0)
-return 1;
+if (value == 6)
+return 2;
+else if (value>6)
+return 3;
 else
-return value * myfunction(value-2) * myfunction(value-3);
+return value + myfunction(value+1) * myfunction(value+2);
 }
 int main()
 {
 int a,b;
-a = myfunction(5);
-b = myfunction(6);
+a = myfunction(3);
+b = myfunction(4);
 cout<<a<<endl;
 cout<<b<<endl;
 cout<<a+b<<endl;
