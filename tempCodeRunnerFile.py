@@ -1,0 +1,2 @@
+ not in str[i]:
+    #     

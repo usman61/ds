@@ -30,6 +30,7 @@ class LinkedList{
     void deletion(int pos);
     void last_to_front();
     void swapNodes(node *n1,node *n2);
+    void copyList(LinkedList l1,LinkedList &l2);
 
 };
 
@@ -44,24 +45,44 @@ int main(int argc, char const *argv[])
     l1.insertion(9,5);
     l1.insertion(10,6);
     // l1.deletion(2);
+    cout<<"L1 Content"<<endl;
     l1.printing();
     // l1.last_to_front();
 
-    l1.swapNodes(l1.head->next,l1.head->next->next->next);
-    l1.printing();
+    l1.copyList(l1,l2);  //l1.bst_print(bst1,bst2);
+
+    cout<<"L2 Content"<<endl;
+    l2.printing();
+
+    // l1.swapNodes(l1.head->next,l1.head->next->next->next);
+    // l1.printing();
 
     
     // l2.insertion(8,1);
     // l2.insertion(9,2);
-    // l2.insertion(10,3);
-    // l2.insertion(11,4);
-
     // l1.concatenate(l1,l2);
     // l1.printing();
 
     
     return 0;
 }
+
+void LinkedList::copyList(LinkedList l1,LinkedList &l2){
+    node *temp=l1.head;
+    int pos=1;
+    // LinkedList l3;    //5,6,7,8,9,10 --->10,12,14
+    while(temp!=NULL){
+        // l3.insertion(temp->info,pos);
+
+        l2.insertion(temp->info,pos);
+        pos++;
+        temp= temp->next;
+    }
+    // l2.printing();
+    // l3.printing();
+}
+
+
 void LinkedList::swapNodes(node *n1,node *n2){
     if(n1==n2)
     return;
@@ -101,6 +122,8 @@ void LinkedList::last_to_front(){
    head = temp; 
 
  }
+
+
 void LinkedList::concatenate(LinkedList l1,LinkedList l2){
     node *temp=l1.head;
     while(temp->next!=NULL)
