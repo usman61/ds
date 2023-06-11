@@ -1,6 +1,8 @@
 #include<iostream>
 using namespace std;
 
+// updated
+
 class Stack{
     int capacity,len,*arr;
     public:
